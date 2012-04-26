@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require 'inventory/rake/tasks-1.0'
+require 'inventory/rake-1.0'
 
 $:.unshift File.expand_path('../lib', __FILE__)
 require 'lookout/rake-3.0'

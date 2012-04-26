@@ -24,7 +24,7 @@ class Lookout::Rake::Tasks::Test
   #   expectation files to load
   # @option options [Inventory] :inventory (Inventory::Rake::Tasks.inventory)
   #   The Inventory to look for :paths, :requires, and :files in, see
-  #   {#inventory=} (the default is only used if `inventory/rake/tasks` has
+  #   {#inventory=} (the default is only used if `inventory/rake-1.0` has
   #   been required)
   # @option options [Gem::Specification] :specification The Gem specification
   #   to look for :paths and :requires in, see {#specification=}
@@ -38,7 +38,7 @@ class Lookout::Rake::Tasks::Test
     self.requires = options.fetch(:requires, [])
     self.files = options.fetch(:files){ ENV.include?('TEST') ? FileList[ENV['TEST']] : nil }
     inventory = options[:inventory] ||
-      (provided?('inventory/rake/tasks-1.0') and Inventory::Rake::Tasks.inventory) and
+      (provided?('inventory/rake-1.0') and Inventory::Rake::Tasks.inventory) and
       self.inventory = inventory
     self.specification = options.fetch(:specification) if options.include? :specification
     self.options = options.fetch(:options, %w'-w')
