@@ -1,12 +1,14 @@
                                  Lookout-Rake
 
-  Lookout-Rake provides Rake tasks for testing using Lookout.
+  Lookout-Rake provides Rake¹ tasks for testing using Lookout.
+
+¹ See http://rake.rubyforge.org/
 
 § Installation
 
     Install Lookout-Rake with
 
-    % gem install lookout
+    % gem install lookout-rake
 
 § Usage
 
@@ -24,14 +26,28 @@
 
     You can hook up your test task to use your Inventory¹:
 
-      require 'library/version.rb'
+      load File.expand_path('../lib/library/version.rb', __FILE__)
 
       Lookout::Rake::Tasks::Test.new :inventory => Library::Version
 
     Also, if you use the tasks that come with Inventory, the test task will
-    hook into the inventory you tell them to use automatically.
+    hook into the inventory you tell them to use automatically, that is, the
+    following will do:
 
-    To use Lookout together with Vim², place ‹contrib/rakelookout.vim› in
+      load File.expand_path('../lib/library/version.rb', __FILE__)
+
+      Inventory::Rake::Tasks.define Library::Version
+
+      Lookout::Rake::Tasks::Test.new
+
+    For further usage information, see the {API documentation}².
+
+¹ Get information on Inventory at http://disu.se/software/inventory/
+² See http://disu.se/software/lookout-rake/api/Lookout/Rake/Tasks/Test/
+
+§ Integration
+
+    To use Lookout together with Vim¹, place ‹contrib/rakelookout.vim› in
     ‹~/.vim/compiler› and add
 
       compiler rakelookout
@@ -62,5 +78,30 @@
     receiving a lot of errors and/or failures and want to focus on those
     associated with a specific class or on a specific test.
 
-¹ Get information on Inventory at http://disu.se/software/inventory/
-² Find out more about Vim at http://www.vim.org/
+¹ Find out more about Vim at http://www.vim.org/
+
+§ Financing
+
+    Currently, most of my time is spent at my day job and in my rather busy
+    private life.  Please motivate me to spend time on this piece of software
+    by donating some of your money to this project.  Yeah, I realize that
+    requesting money to develop software is a bit, well, capitalistic of me.
+    But please realize that I live in a capitalistic society and I need money
+    to have other people give me the things that I need to continue living
+    under the rules of said society.  So, if you feel that this piece of
+    software has helped you out enough to warrant a reward, please PayPal a
+    donation to now@disu.se¹.  Thanks!  Your support won’t go unnoticed!
+
+¹ Send a donation:
+  https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=now%40disu%2ese&item_name=Nikolai%20Weibull%20Software%20Services
+
+§ Reporting Bugs
+
+    Please report any bugs that you encounter to the {issue tracker}¹.
+
+  ¹ See https://github.com/now/lookout-rake/issues
+
+§ Authors
+
+    Nikolai Weibull wrote the code, the tests, the manual pages, and this
+    README.

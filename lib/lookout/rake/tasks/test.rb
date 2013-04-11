@@ -7,14 +7,16 @@ class Lookout::Rake::Tasks::Test
   LoaderPath = File.join(File.dirname(__FILE__), 'test/loader.rb')
   Paths = %w'lib'
 
-  # Defines a Rake task for running expectation tests named _:name_.  Also
-  # defines a task for running expectations with coverage name
-  # _:name_:coverage.  If _:name_ `#==` `:test`, then the default task is set
-  # to depend on it, unless the default task has already been defined, as well
-  # as the `:check` task.
+  # Defines a Rake task for running expectation tests named NAME.  Also defines
+  # a task for running expectations with coverage checking named NAME:coverage.
+  # The default task is set to depend on the NAME task, unless the default task
+  # has already been defined.  The `:check` task is likewise set to depend on
+  # NAME.  The NAME task itself is set to depend on the `:compile` task if it’s
+  # been defined.
   #
-  # Optionally yields the _task_ being created so that it may be adjusted
-  # further before being defined.
+  # Optionally yields the TASK being created so that it may be adjusted further
+  # before being defined.
+  #
   # @param [Hash] options
   # @option options [Symbol] :name (:test) The name of the task
   # @option options [Array<String>] :paths (['lib']) The paths to add to
@@ -31,7 +33,7 @@ class Lookout::Rake::Tasks::Test
   # @option options [Array<String>] :options (['-w']) The options to pass to
   #   ruby
   # @yield [?]
-  # @yieldparam [Test] task
+  # @yieldparam [self] task
   def initialize(options = {})
     self.name = options.fetch(:name, :test)
     self.paths = options.fetch(:paths, Paths)
@@ -50,7 +52,7 @@ class Lookout::Rake::Tasks::Test
   attr_reader :name
 
   # @param [Symbol] value
-  # @return [Symbol] The new name of the task: _value_
+  # @return [Symbol] The new name of the task: VALUE
   attr_writer :name
 
   # @return [Array<String>] The paths to add to `$LOAD_PATH`; may load
@@ -62,7 +64,7 @@ class Lookout::Rake::Tasks::Test
   end
 
   # @param [Array<String>] value
-  # @return [Array<String>] The new paths to add to `$LOAD_PATH`: _value_
+  # @return [Array<String>] The new paths to add to `$LOAD_PATH`: VALUE
   attr_writer :paths
 
   # @return [Array<String>] The libraries to require; may load {#specification}
@@ -73,17 +75,17 @@ class Lookout::Rake::Tasks::Test
   end
 
   # @param [Array<String>] value
-  # @return [Array<String>] The new libraries to require: _value_
+  # @return [Array<String>] The new libraries to require: VALUE
   attr_writer :requires
 
-  # @return [Array<String>] The expectation files to load; defaults to
+  # @return [Array<String>] The expectation files to load, defaulting to
   #   `FileList['test/unit/**/*.rb]`
   def files
     @files ||= FileList['test/unit/**/*.rb']
   end
 
   # @param [Array<String>] value
-  # @return [Array<String>] The new expectation files to load: _value_
+  # @return [Array<String>] The new expectation files to load: VALUE
   attr_writer :files
 
   # @return [Inventory] The inventory to use
@@ -91,7 +93,7 @@ class Lookout::Rake::Tasks::Test
 
   # @param [Inventory] inventory
   # @return [Inventory] The new inventory to use for {#paths}, {#requires}, and
-  #   {#files}: _inventory_
+  #   {#files}: INVENTORY
   def inventory=(inventory)
     self.paths = inventory.lib_directories
     self.requires = [inventory.package_require]
@@ -114,7 +116,7 @@ class Lookout::Rake::Tasks::Test
 
   # @param [Gem::Specification] specification
   # @return [Gem::Specification] The new specification to use for {#paths} and
-  #   {#requires}: _specification_
+  #   {#requires}: SPECIFICATION
   def specification=(specification)
     self.paths = specification.require_paths
     self.requires = [specification.name.gsub('-', '/')]
@@ -125,7 +127,7 @@ class Lookout::Rake::Tasks::Test
   attr_reader :options
 
   # @param [Array<String>] value
-  # @return [Array<String>] The new options to pass to ruby: _value_
+  # @return [Array<String>] The new options to pass to ruby: VALUE
   attr_writer :options
 
   def define
@@ -134,14 +136,19 @@ class Lookout::Rake::Tasks::Test
       run
     end
 
+    coverage = :"#{@name}:coverage"
     desc @name == :test ? 'Check test coverage' : 'Check test coverage for %s' % @name
-    task :"#{@name}:coverage" do
+    task coverage do
       run %w'-c'
+    end
+
+    [@name, coverage].each do |name|
+      task name => :compile if Rake::Task.task_defined? :compile
     end
 
     task :default => @name unless Rake::Task.task_defined? :default
 
-    task :check => :test if @name == :test
+    task :check => @name
   end
 
   private
