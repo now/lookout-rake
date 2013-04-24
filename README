@@ -14,7 +14,7 @@
 
     Include the following code in your ‹Rakefile›:
 
-      require 'lookout/rake-3.0'
+      require 'lookout-rake-3.0'
 
       Lookout::Rake::Tasks::Test.new
 
@@ -26,24 +26,25 @@
 
     You can hook up your test task to use your Inventory¹:
 
-      load File.expand_path('../lib/library/version.rb', __FILE__)
+      load File.expand_path('../lib/library-X.0/version.rb', __FILE__)
 
       Lookout::Rake::Tasks::Test.new :inventory => Library::Version
 
-    Also, if you use the tasks that come with Inventory, the test task will
-    hook into the inventory you tell them to use automatically, that is, the
-    following will do:
+    Also, if you use the tasks that come with Inventory-Rake², the test task
+    will hook into the inventory you tell them to use automatically, that is,
+    the following will do:
 
-      load File.expand_path('../lib/library/version.rb', __FILE__)
+      load File.expand_path('../lib/library-X.0/version.rb', __FILE__)
 
       Inventory::Rake::Tasks.define Library::Version
 
       Lookout::Rake::Tasks::Test.new
 
-    For further usage information, see the {API documentation}².
+    For further usage information, see the {API documentation}³.
 
-¹ Get information on Inventory at http://disu.se/software/inventory/
-² See http://disu.se/software/lookout-rake/api/Lookout/Rake/Tasks/Test/
+¹ Inventory: http://disu.se/software/inventory/
+² Inventory-Rake: http://disu.se/software/inventory-rake/
+³ API: http://disu.se/software/lookout-rake/api/Lookout/Rake/Tasks/Test/
 
 § Integration
 

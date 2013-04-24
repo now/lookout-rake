@@ -11,8 +11,8 @@ class Lookout::Rake::Tasks::Test
   # a task for running expectations with coverage checking named NAME:coverage.
   # The default task is set to depend on the NAME task, unless the default task
   # has already been defined.  The `:check` task is likewise set to depend on
-  # NAME.  The NAME task itself is set to depend on the `:compile` task if it’s
-  # been defined.
+  # NAME.  The NAME task itself and its NAME:coverage counterpart are set to
+  # depend on the `:compile` task if it’s been defined.
   #
   # Optionally yields the TASK being created so that it may be adjusted further
   # before being defined.
@@ -40,7 +40,7 @@ class Lookout::Rake::Tasks::Test
     self.requires = options.fetch(:requires, [])
     self.files = options.fetch(:files){ ENV.include?('TEST') ? FileList[ENV['TEST']] : nil }
     inventory = options[:inventory] ||
-      (provided?('inventory/rake-1.0') and Inventory::Rake::Tasks.inventory) and
+      ((provided? 'inventory/rake-1.0' or provided? 'inventory-rake-1.0') and Inventory::Rake::Tasks.inventory) and
       self.inventory = inventory
     self.specification = options.fetch(:specification) if options.include? :specification
     self.options = options.fetch(:options, %w'-w')
