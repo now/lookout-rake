@@ -6,7 +6,7 @@ module Lookout::Rake
   Version = Inventory.new(3, 0, 2){
     def dependencies
       super + Inventory::Dependencies.new{
-        development 'inventory-rake', 1, 2, 0
+        development 'inventory-rake', 1, 4, 0
         development 'yard', 0, 8, 0
         development 'yard-heuristics', 1, 1, 0
         runtime 'rake', 0, 9, 2, :feature => 'rake'
