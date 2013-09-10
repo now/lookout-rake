@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Namespace for [Lookout](http://disu.se/software/lookout/).  The bulk of the
+# Namespace for [Lookout](http://disu.se/software/lookout-3.0/).  The bulk of the
 # library is in {Rake::Tasks::Test}.
 module Lookout end
 

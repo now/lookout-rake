@@ -1,8 +1,9 @@
                                  Lookout-Rake
 
-  Lookout-Rake provides Rake¹ tasks for testing using Lookout.
+  Lookout-Rake provides Rake¹ tasks for testing using Lookout².
 
 ¹ See http://rake.rubyforge.org/
+² See http://disu.se/software/lookout-3.0/
 
 § Installation
 
@@ -42,9 +43,9 @@
 
     For further usage information, see the {API documentation}³.
 
-¹ Inventory: http://disu.se/software/inventory/
-² Inventory-Rake: http://disu.se/software/inventory-rake/
-³ API: http://disu.se/software/lookout-rake/api/Lookout/Rake/Tasks/Test/
+¹ Inventory: http://disu.se/software/inventory-1.0/
+² Inventory-Rake: http://disu.se/software/inventory-rake-1.0/
+³ API: http://disu.se/software/lookout-rake-3.0/api/Lookout/Rake/Tasks/Test/
 
 § Integration
 
